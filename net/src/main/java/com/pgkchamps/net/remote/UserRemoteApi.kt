@@ -1,14 +1,15 @@
 package com.pgkchamps.net.remote
 
 import com.pgkchamps.net.api.UserApiInterface
-import com.pgkchamps.net.common.userApi
+import com.pgkchamps.net.common.ret.userApi
 import com.pgkchamps.net.dto.RegDto
 import com.pgkchamps.net.dto.UserLogin
 import com.pgkchamps.net.dto.UserLoginResponse
 import com.pgkchamps.net.dto.UserProfile
 import android.util.Log
+import com.pgkchamps.net.storage.UserDataStrorageImpl
 
-   // Этот класс — "Менеджер", который берет инструкции Ретрофита и безопасно выполняет их, защищая приложение от вылетов
+// Этот класс — "Менеджер", который берет инструкции Ретрофита и безопасно выполняет их, защищая приложение от вылетов
 class UserRemoteApi(
     // Менеджер держит при себе инструмент связи (Ретрофит-интерфейс)
     val api: UserApiInterface = userApi
@@ -50,6 +51,9 @@ class UserRemoteApi(
             }
             // Если всё успешно — берем чистый ответ из тела (body) сервера и отдаем его приложению
             // Оператор !! означает: "Я на 100% уверен, что там есть данные, распаковывай"
+
+            UserDataStrorageImpl().saveToken(res.body()!!.token)
+
             return res.body()!!
 
         } catch (e: Exception) {

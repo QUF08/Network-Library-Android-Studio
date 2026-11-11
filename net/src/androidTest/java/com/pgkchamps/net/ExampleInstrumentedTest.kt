@@ -43,9 +43,7 @@ class ExampleInstrumentedTest {
     @Test
     fun test1() = runBlocking {
         val mail = getRandomEmail()
-
         val userRem = UserRemoteApi()
-
         val isReg = userRem.reg(
             RegDto(
                 email = mail,
